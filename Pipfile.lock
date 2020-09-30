@@ -1,0 +1,24 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "2f71f0a1fc34a5896cbd0694ce3100d659d67452f6c76e5d934a1babe670edc0"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.7"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "djitellopy": {
+            "file": "https://github.com/damiafuentes/DJITelloPy/archive/master.zip"
+        }
+    },
+    "develop": {}
+}
