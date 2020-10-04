@@ -7,6 +7,9 @@ verify_ssl = true
 
 [packages]
 djitellopy = {file = "https://github.com/damiafuentes/DJITelloPy/archive/master.zip"}
+opencv-python = "*"
+numpy = "*"
+imutils = "*"
 
 [requires]
 python_version = "3.7"
