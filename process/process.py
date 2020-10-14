@@ -10,8 +10,6 @@ class Process(IThread):
     def put_queue(self, obj, priority=3):
         self.queue.put((priority, obj))
     
-    def run(self):
-        while True:
-            while not self.queue.empty():
-                _, observation = self.queue.get()
-                print(f'Observed {observation.kind} at {observation.rect}!')
+    def do(self):
+        _, observation = self.queue.get()
+        print(f'Observed {observation.kind} at {observation.rect}!')

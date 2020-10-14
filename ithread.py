@@ -16,3 +16,8 @@ class IThread(threading.Thread):
     def notify_consumers(self, obj):
         for consumer in self.consumers:
             consumer.put_queue(obj)
+
+    def run(self):
+        while True:
+            while not self.queue.empty():
+                self.do()

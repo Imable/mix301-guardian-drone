@@ -4,6 +4,7 @@ class Observation:
         self.rect = rect
         self.d_to = distance_to
     
+    # Requires to be implemented in order to be used in a PriorityQueue
     def __eq__(self, other):
         return True
         

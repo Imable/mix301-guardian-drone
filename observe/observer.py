@@ -14,17 +14,15 @@ class Observer(IThread):
         self.model = cv2.CascadeClassifier(cv2.data.haarcascades + model)
         super().__init__(*args, **kwargs)
 
-    def run(self):
-        while True:
-            while not self.queue.empty():
-                frame = self.queue.get()
-                rects = self.model.detectMultiScale(frame, 1.1, 5)
-                
-                if len(rects) > 0:
-                    self.notify_consumers(
-                        Observation(
-                            self.kind,
-                            rects[0],
-                            100 # TODO: Implement actual distance calculation: https://www.pyimagesearch.com/2015/01/19/find-distance-camera-objectmarker-using-python-opencv/
-                        )
-                    )
+    def do(self):
+        frame = self.queue.get()
+        rects = self.model.detectMultiScale(frame, 1.1, 5)
+        
+        if len(rects) > 0:
+            self.notify_consumers(
+                Observation(
+                    self.kind,
+                    rects[0],
+                    100 # TODO: Implement actual distance calculation: https://www.pyimagesearch.com/2015/01/19/find-distance-camera-objectmarker-using-python-opencv/
+                )
+            )
