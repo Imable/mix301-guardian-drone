@@ -6,9 +6,8 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-djitellopy = {file = "https://github.com/damiafuentes/DJITelloPy/archive/master.zip"}
-opencv-python = "*"
-numpy = "*"
+djitellopy = "*"
+opencv-python = "==4.4.0.42"
 imutils = "*"
 
 [requires]

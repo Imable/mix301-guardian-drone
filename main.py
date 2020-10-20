@@ -1,14 +1,25 @@
 from observe.stream import Stream
 from observe.observer import Observer
+from observe.viewer import Viewer
 
 from process.process import Process
+
+from act.act import Act
 
 from queue import Queue
 from queue import PriorityQueue
 
 def get_threads():
+    act = Act(
+        [], Queue(5)
+    )
+
     process = Process(
-        [], PriorityQueue(5)
+        [act], PriorityQueue(5)
+    )
+
+    viewer = Viewer(
+        [], Queue(1)
     )
 
     observer = Observer(
@@ -18,11 +29,11 @@ def get_threads():
     )
 
     stream = Stream(
-        [observer], None
+        [observer, viewer], None
     )
 
     return [
-        process, observer, stream
+        act, process, viewer, observer, stream
     ]
     
 def start_threads():
@@ -32,8 +43,14 @@ def start_threads():
 
 def end_threads():
     for thread in THREADS:
+        thread.exit = True
         thread.join()
 
 THREADS = get_threads()
 start_threads()
+
+# Wait for keypress to exit
+input('')
+
 end_threads()
+

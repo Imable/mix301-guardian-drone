@@ -7,15 +7,21 @@ from config.config import config
 
 import cv2
 import imutils
+import time
 
 class Stream(IThread):
 
-    def run(self):
-        cap = cv2.VideoCapture(0)
+    def graceful_exit(self):
+        config.drone.streamoff()
 
-        while True:
+    def run(self):
+        # cap = cv2.VideoCapture(0)
+
+        while not self.exit:
             # Capture frame-by-frame
-            ret, frame = cap.read()
+            # ret, frame = cap.read()
+
+            frame = config.frame.frame
 
             # Our operations on the frame come here
             frame = imutils.resize(frame, width=config.props['img']['width'])
@@ -23,5 +29,9 @@ class Stream(IThread):
             # Send the frame to the consumers
             self.notify_consumers(frame)
 
-        cap.release()
-        cv2.destroyAllWindows()
+            # time.sleep(0.5)
+        
+        self.graceful_exit()
+
+        # cap.release()
+        # cv2.destroyAllWindows()

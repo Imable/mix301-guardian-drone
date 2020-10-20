@@ -16,6 +16,7 @@ class Observer(IThread):
 
     def do(self):
         frame = self.queue.get()
+        # Potentially filter on skin color first
         rects = self.model.detectMultiScale(frame, 1.1, 5)
         
         if len(rects) > 0:
