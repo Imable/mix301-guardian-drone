@@ -7,3 +7,13 @@
 
 ## Running the program
 1. Run the program using the command `pipenv run python main.py`
+
+## Basic code to control the drone
+```python
+from djitellopy import Tello
+
+tello = Tello()
+tello.connect()
+tello.takeoff()
+tello.land()
+```
