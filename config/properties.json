@@ -1,8 +1,14 @@
 {
     "img": {
-        "width": 500
+        "width": 400
     },
-    "face": {
-        "size": 60
+    "umbrella": {
+        "radius": 100,
+        "height_offset": 25
+    },
+    "drone": {
+        "respond_delay": 5,
+        "lost_frame_cnt": 20,
+        "init_mood": "happy"
     }
 }
