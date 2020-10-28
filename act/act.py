@@ -5,46 +5,48 @@ path.append('..')
 from ithread import IThread
 
 from config.config import config
+from memory.memory import memory
+
+from helper.matrix import mat_add, mat_movement
 
 import time
 
 class Act(IThread):
     
     def graceful_exit(self):
-        config.drone.land()
+        if config.use_drone:
+            config.drone.land()
    
     def run(self):
         while not self.exit:
-            count, avg_action = 0, [0, 0, 0, 0]
-            while not self.queue.empty():
-                avg_action = self.add_action(avg_action, self.queue.get())
-                count += 1
-                
-                # Combine all actions
-                # Send to drone
+            
+            # inject moves from behavior here
+            # count, avg_action = 0, memory.behave() # [0, 0, 0, 0]
 
-            if count > 0:
-                final_move = [int(action / count) for action in avg_action]
-                print(final_move)
-                
+            behavior_move, recognition_move = memory.behave(), self.queue.get() #memory.behave(), [0,0,0,0],
+           
+            move = mat_add(behavior_move, recognition_move)
+          
+            # Send movements to drone if we are using the drone
+            print(move)
+
+            # If we use the drone, the drone is ready to respond and the move is not just [0,0,0,0], send the move to the drone
+            if config.use_drone and config.drone_respond_ready() and mat_movement(move):
                 config.drone.send_rc_control(
-                    final_move[0],
-                    final_move[1],
-                    final_move[2],
-                    final_move[3]
+                    move[0],
+                    move[1],
+                    move[2],
+                    move[3]
                 )
-
-                time.sleep(1)
+            
+            time.sleep(0.1)
 
         self.graceful_exit()
         
-    def add_action(self, avg_action, cur_action):
-        new_action = []
+    # def add_action(self, avg_action, cur_action):
+    #     new_action = []
 
-        for avg, cur in zip(avg_action, cur_action):
-            new_action.append(avg + cur)
+    #     for avg, cur in zip(avg_action, cur_action):
+    #         new_action.append(avg + cur)
 
-        return new_action
-        
-
-            
+    #     return new_action      

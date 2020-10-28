@@ -82,7 +82,7 @@ class Controller:
 
         for pid, error in zip(self.pids, errors):
             update = pid.update(error, sleep=0)
-            update = int(clip(update, -50, 50))
+            update = int(clip(update, -30, 30))
             updates.append(update)
 
         return updates
