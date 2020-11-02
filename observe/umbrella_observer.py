@@ -18,7 +18,7 @@ class UmbrellaObserver(IThread):
     
     def do(self):
         frame = self.queue.get()
-        area  = self.track(frame)
+        area, frame = self.track(frame)
         if area:
             memory.found()
             self.notify_consumers(
@@ -82,9 +82,9 @@ class UmbrellaObserver(IThread):
                         max_radius = radius
             
             if max_radius > 30:
-                return (obs[0], obs[1]), max_radius #feed the optimized xoffset and yoffset to telloCV.py
+                return ((obs[0], obs[1]), max_radius), hsv #feed the optimized xoffset and yoffset to telloCV.py
             else: 
-                return None
+                return None, hsv
         else:
-            return None
+            return None, hsv
 

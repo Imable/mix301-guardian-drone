@@ -22,6 +22,7 @@ class Memory:
         # Select random mood excluding the last mood, which is the 'confused' mood, which is only used when the drone is lost.
         id = random.randint(0, len(moods) - 1)
         self.set_mood(raw_moods[id].name)
+        self.current_mood.reapply()
         # self.set_mood('sad')
 
     def found(self):
@@ -29,27 +30,10 @@ class Memory:
             # Found itself again
             self.lost_state = 0, False
             self.select_random_mood()
-            self.apply_new_mood()
-    
-    def apply_new_mood(self):
-        mood = self.get_mood()
-
-        # Ensure that the drone is flying
-        if not config.drone_flying:
+        
+        # Just take off in case it broke down before
+        if config.use_drone:
             config.drone_takeoff()
-
-        if mood == 'happy':
-            config.drone.set_speed(100)
-            config.drone.flip_back()
-        elif mood == 'sad':
-            config.drone.set_speed(10)
-            if random.random() < 0.5:
-                config.drone.flip_left()
-                config.drone_emergency_stop()
-                time.sleep(7)
-                config.drone_takeoff()
-        elif mood == 'no_mood':
-            config.drone.set_speed(50)
 
     def lost(self):
         self.lost_state = self.lost_state[0] + 1, self.lost_state[1]
@@ -60,6 +44,7 @@ class Memory:
             self.current_mood = moods['confused']
     
     def behave(self):
+        self.current_mood.do_behavior()
         return self.current_mood.get_move()
 
 memory = Memory()

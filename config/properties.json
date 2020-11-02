@@ -8,7 +8,7 @@
     },
     "drone": {
         "respond_delay": 5,
-        "lost_frame_cnt": 200,
-        "init_mood": "happy"
+        "lost_frame_cnt": 150,
+        "init_mood": "protect"
     }
 }
