@@ -10,13 +10,13 @@ import cv2
 class Viewer(IThread):
     def __init__(self, *args, **kwargs):
         self.font = cv2.FONT_HERSHEY_SIMPLEX
-        self.text_color = (0, 0, 255)
+        self.text_color = (255, 255, 255)
         super().__init__(*args, **kwargs)
 
     def do(self):
         frame, observation = self.queue.get()
 
-        cv2.putText(frame, f'Mood: {memory.get_mood}', (5, 20), self.font, 1, self.text_color)
+        cv2.putText(frame, f'Mood: {memory.get_mood()}', (5, 20), self.font, 1, self.text_color)
 
         if observation:
             pt, radius = observation.area

@@ -11,6 +11,7 @@ class Config:
         self.props = self.read_properties()
 
         self.use_drone = True
+        self.drone_flying = False
         self.drone = None
 
         self.calculate_additional_props()
@@ -25,7 +26,7 @@ class Config:
         self.drone.connect()
         self.drone.streamon()
         self.cap = self.drone.get_frame_read()
-        self.drone.takeoff()
+        self.drone_takeoff()
         self.drone.move_up(100)
 
     def drone_respond_ready(self):
@@ -44,6 +45,14 @@ class Config:
             self.drone.streamoff()
         else:
             self.cap.release()
+    
+    def drone_emergency_stop(self):
+        self.drone.emergency()
+        self.drone_flying = False
+    
+    def drone_takeoff(self):
+        self.drone.takeoff()
+        self.drone_flying = True
 
     def read_properties(self):
         with open('./config/properties.json') as json_file:
