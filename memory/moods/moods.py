@@ -17,7 +17,7 @@ def sad_behavior():
 
 def sad_start():
     config.drone.set_speed(10)
-    if random.random() < 0.5:
+    if random.random() < 0.75:
         config.drone.flip_left()
         config.drone_emergency_stop()
         time.sleep(7)
@@ -39,7 +39,7 @@ def confused_start():
 raw_moods = [
     Mood(
         'happy',
-        (happy_behavior, 240),
+        (happy_behavior, 120),
         happy_start,
         [
             (1, [0, 0, 20, 0]),
@@ -48,7 +48,7 @@ raw_moods = [
     ),
     Mood(
         'sad',
-        (sad_behavior, 240),
+        (sad_behavior, 120),
         sad_start,
         [
             (1, [-20, 0, 0, 0]),
