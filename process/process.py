@@ -31,8 +31,8 @@ class Process(IThread):
     
     def get_errors(self, observation):
         return [
-            (observation.area[0][0] - config.props["img"]["frame_center_x"]) * 0.5, # X - Left right
+            (observation.area[0][0] - config.props["img"]["frame_center_x"]),       # X - Left right
             config.props["umbrella"]["radius"] - observation.area[1],               # Y - Backward forward distance from person, matching the size of the umbrella with the actual size
             config.props["img"]["frame_center_y"] - observation.area[0][1] - config.props["umbrella"]["height_offset"],         # Z - Up down into the air
-            (observation.area[0][0] - config.props["img"]["frame_center_x"]) * 0.5  #  X - Rotate around Y axis, towards the umbrella
+            (observation.area[0][0] - config.props["img"]["frame_center_x"])  #  X - Rotate around Y axis, towards the umbrella
         ]

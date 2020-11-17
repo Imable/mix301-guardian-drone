@@ -4,6 +4,7 @@ path.append('..')
 import time
 import random
 from config.config import config
+import math
 
 class Mood:
     def __init__(self, name, drone_behavior, start_drone_behavior, animation_matrices, start_animation_matrices=[], loop=True):
@@ -70,7 +71,9 @@ class Mood:
     
     def get_behavior_chance(self):
         diff = self.get_now() - self.last_drone_behavior
-        return 1/(self.drone_behavior[1]/diff)
+        return (diff*0.5)/self.drone_behavior[1]
+        # return math.log(1 + diff)/math.log(1 +  self.drone_behavior[1])
+        # return math.log(1 - 1/(self.drone_behavior[1]/diff)) if diff > 0 else diff
 
     def do_behavior(self):
         rnd = random.random()

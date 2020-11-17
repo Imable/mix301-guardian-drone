@@ -12,8 +12,8 @@ class UmbrellaObserver(IThread):
 
     def __init__(self, *args, **kwargs):
         self.kind  = 'umbrella'
-        self.color_lower = (25, 100, 100) 
-        self.color_upper = (40, 255, 255)
+        self.color_lower = (23, 100, 100) 
+        self.color_upper = (35, 255, 255)
         super().__init__(*args, **kwargs)
     
     def do(self):
@@ -73,7 +73,7 @@ class UmbrellaObserver(IThread):
             for c in cnts: #iterate through every contour
                 #c = max(cnts, key=cv2.contourArea)
                 (x, y), radius = cv2.minEnclosingCircle(c)
-                if radius > 30:
+                if radius > 10:
                     M = cv2.moments(c)
                     center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
 
@@ -81,7 +81,7 @@ class UmbrellaObserver(IThread):
                         obs = (x,y)
                         max_radius = radius
             
-            if max_radius > 30:
+            if max_radius > 10:
                 return ((obs[0], obs[1]), max_radius), hsv #feed the optimized xoffset and yoffset to telloCV.py
             else: 
                 return None, hsv

@@ -26,8 +26,8 @@ class Config:
         self.drone.connect()
         self.drone.streamon()
         self.cap = self.drone.get_frame_read()
-        self.drone_takeoff()
-        self.drone.move_up(100)
+        # self.drone_takeoff()
+        # self.drone.move_up(100)
 
     def drone_respond_ready(self):
         return time.time() - self.time_of_initialization > self.props["drone"]["respond_delay"]

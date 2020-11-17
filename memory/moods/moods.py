@@ -4,24 +4,32 @@ path.append('..')
 from config.config import config
 from .mood import Mood
 import random
+import time
+import random
 
 def happy_behavior():
-    config.drone.flip_forward()
+    flip = random.randint(0, 3)
+    if flip == 0:
+        config.drone.flip_forward()
+    elif flip == 1:
+        config.drone.flip_back()
+    elif flip == 2:
+        config.drone.flip_left()
+    else:
+        config.drone.flip_right()
 
 def happy_start():
     config.drone.set_speed(100)
-    config.drone.flip_back()
 
 def sad_behavior():
-    sad_start()
+    config.drone.flip_left()
+    time.sleep(1)
+    config.drone_emergency_stop()
+    # time.sleep(7)
+    # config.drone_takeoff()
 
 def sad_start():
     config.drone.set_speed(10)
-    if random.random() < 0.75:
-        config.drone.flip_left()
-        config.drone_emergency_stop()
-        time.sleep(7)
-        config.drone_takeoff()
 
 def no_mood_behavior():
     pass
@@ -48,7 +56,7 @@ raw_moods = [
     ),
     Mood(
         'sad',
-        (sad_behavior, 120),
+        (sad_behavior, 1000),
         sad_start,
         [
             (1, [-20, 0, 0, 0]),
@@ -72,8 +80,8 @@ raw_moods = [
         (confused_behavior, 1000),
         confused_start,
         [
-            (1, [0, -30, 0, 60]),
-            (1, [0, 20, 0, -20])
+            (1, [0, -10, 0, 60]),
+            (1, [0, 0, 0, -20])
         ]
     )
 ]

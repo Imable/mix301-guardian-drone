@@ -1,5 +1,12 @@
+# # Hacky way to allow for importing from parent folders
+from sys import path
+path.append('..')
+
+from config.config import config
+
 import time
 from numpy import clip
+
 
 # Modified code from PyImageSearch
 # https://www.pyimagesearch.com/2019/04/01/pan-tilt-face-tracking-with-a-raspberry-pi-and-opencv/
@@ -73,6 +80,10 @@ class Controller:
 
         for pid in self.pids:
             pid.initialize()
+
+    def map_distance_to_pixels(self, dist, max_dist, max_move=40):
+        # print(dist)
+        return int(dist * max_move / max_dist)
     
     def update(self, errors):
         '''
@@ -80,9 +91,20 @@ class Controller:
         '''
         updates = []
 
+        # x_update = self.pids[0].update(errors[0], sleep=0)
+        # x_update = self.map_distance_to_pixels(x_update, config.props["img"]["frame_center_x"], max_move=100)
+        # y_update = self.pids[1].update(errors[1], sleep=0)
+        # y_update = int(clip(y_update, -30, 30))
+        # z_update = self.pids[2].update(errors[2], sleep=0)
+        # z_update = self.map_distance_to_pixels(z_update, config.props["img"]["frame_center_y"], max_move=30)
+        # r_update = self.pids[3].update(errors[3], sleep=0)
+        # r_update = int(clip(r_update, -20, 20))
+
+        # updates = [x_update, y_update, z_update, r_update]
+
         for pid, error in zip(self.pids, errors):
             update = pid.update(error, sleep=0)
-            update = int(clip(update, -35, 35))
+            update = int(clip(update, -30, 30))
             updates.append(update)
 
         return updates

@@ -3,12 +3,12 @@
         "width": 400
     },
     "umbrella": {
-        "radius": 100,
-        "height_offset": 25
+        "radius": 80,
+        "height_offset": 40
     },
     "drone": {
         "respond_delay": 5,
-        "lost_frame_cnt": 150,
-        "init_mood": "protect"
+        "lost_frame_cnt": 50,
+        "init_mood": "confused"
     }
 }
